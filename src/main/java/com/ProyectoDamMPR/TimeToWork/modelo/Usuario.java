@@ -1,12 +1,11 @@
 package com.ProyectoDamMPR.TimeToWork.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 import java.util.Date;
 @Entity
+@Table(name="usuario")
 public class Usuario {
     @Column @Id @GeneratedValue
     private int idUsuario;
@@ -33,6 +32,7 @@ public class Usuario {
 
     public Usuario() {
     }
+
 
     public int getIdUsuario() {
         return idUsuario;

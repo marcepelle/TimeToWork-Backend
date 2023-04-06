@@ -3,6 +3,7 @@ package com.ProyectoDamMPR.TimeToWork.controlador;
 import com.ProyectoDamMPR.TimeToWork.modelo.Empresa;
 import com.ProyectoDamMPR.TimeToWork.modelo.Usuario;
 import com.ProyectoDamMPR.TimeToWork.modeloDAO.UsuarioDao;
+import jakarta.servlet.annotation.MultipartConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +21,23 @@ public class UsuarioController {
             //return "Cuenta no registrada";
 
         }
-        System.out.println("Cuenta registrada");
+        else {
+            System.out.println("Cuenta registrada");
+        }
         //return "Cuenta registrada";
     }
+
     @PostMapping("/crearEmpresa")
-    public String crearEmpresa(@RequestBody Empresa empresa){
+    public void crearEmpresa(@RequestBody Empresa empresa){
         int respuesta= usuarioDao.crearEmpresaUsuario(empresa);
-        if(respuesta==0){
-            return "Empresa no registrada";
-        }
-        return "Empresa registrada";
+            if(respuesta==0){
+                System.out.println("No registrada correctamente");
+                //return "Empresa no registrada";
+            }
+            else {
+                System.out.println("Registrada correctamente: ");
+            }
+            //return "Empresa registrada";
+
     }
 }

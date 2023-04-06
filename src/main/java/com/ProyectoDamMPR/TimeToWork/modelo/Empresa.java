@@ -1,19 +1,24 @@
 package com.ProyectoDamMPR.TimeToWork.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name="Empresa")
 public class Empresa {
-    @Column @Id
-    private String CIF;
+    @Column @Id @GeneratedValue
+    private int idEmpresa;
+    @Column(name="CIF")
+    private String cif;
     @Column
     private String nombreEmpresa;
     @Column
     private int telefono;
     @Column
-    private String nombreAdmin;
+    private String nombreadmin;
     @Column
     private String pais;
     @Column
@@ -21,25 +26,39 @@ public class Empresa {
     @Column
     private String ciudad;
 
+    @OneToMany
+    @JoinColumn(name="idEmpresa_fk")
+    private List<Usuario> usuarios = new ArrayList<Usuario>();
+
+
     public Empresa() {
     }
 
-    public Empresa(String CIF, String nombreEmpresa, int telefono, String nombreAdmin, String pais, String provincia, String ciudad) {
-        this.CIF = CIF;
+    public Empresa(int idEmpresa, String cif, String nombreEmpresa, int telefono, String nombreAdmin, String pais, String provincia, String ciudad) {
+        this.idEmpresa=idEmpresa;
+        this.cif = cif;
         this.nombreEmpresa = nombreEmpresa;
         this.telefono = telefono;
-        this.nombreAdmin = nombreAdmin;
+        this.nombreadmin = nombreAdmin;
         this.pais = pais;
         this.provincia = provincia;
         this.ciudad = ciudad;
     }
 
-    public String getCIF() {
-        return CIF;
+    public int getIdEmpresa() {
+        return idEmpresa;
     }
 
-    public void setCIF(String CIF) {
-        this.CIF = CIF;
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public String getCif() {
+        return cif;
+    }
+
+    public void setCif(String cif) {
+        this.cif = cif;
     }
 
     public String getNombreEmpresa() {
@@ -58,12 +77,12 @@ public class Empresa {
         this.telefono = telefono;
     }
 
-    public String getNombreAdmin() {
-        return nombreAdmin;
+    public String getNombreadmin() {
+        return nombreadmin;
     }
 
-    public void setNombreAdmin(String nombreAdmin) {
-        this.nombreAdmin = nombreAdmin;
+    public void setNombreadmin(String nombreadmin) {
+        this.nombreadmin = nombreadmin;
     }
 
     public String getPais() {
@@ -93,10 +112,11 @@ public class Empresa {
     @Override
     public String toString() {
         return "Empresa{" +
-                "CIF='" + CIF + '\'' +
+                "idEmpresa='" + idEmpresa + '\'' +
+                "CIF='" + cif + '\'' +
                 ", nombreEmpresa='" + nombreEmpresa + '\'' +
                 ", telefono=" + telefono +
-                ", nombreAdmin='" + nombreAdmin + '\'' +
+                ", nombreAdmin='" + nombreadmin + '\'' +
                 ", pais='" + pais + '\'' +
                 ", provincia='" + provincia + '\'' +
                 ", ciudad='" + ciudad + '\'' +
