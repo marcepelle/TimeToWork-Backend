@@ -1,7 +1,7 @@
 package com.ProyectoDamMPR.TimeToWork.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.NaturalId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,40 +9,39 @@ import java.util.List;
 @Entity
 @Table(name="Empresa")
 public class Empresa {
-    @Column @Id @GeneratedValue
+    @Column(name = "idempresa") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idEmpresa;
-    @Column(name="CIF")
+    @Column(name = "CIF")
     private String cif;
-    @Column
+    @Column(name = "nombreempresa")
+    @NaturalId
     private String nombreEmpresa;
-    @Column
+    @Column(name = "telefono")
     private int telefono;
-    @Column
+    @Column(name = "nombreadmin")
     private String nombreadmin;
-    @Column
+    @Column(name = "pais")
     private String pais;
-    @Column
+    @Column(name = "provincia")
     private String provincia;
-    @Column
+    @Column(name = "ciudad")
     private String ciudad;
-
-    @OneToMany
-    @JoinColumn(name="idEmpresa_fk")
-    private List<Usuario> usuarios = new ArrayList<Usuario>();
-
+    @OneToMany(mappedBy = "empresa_fk", cascade = CascadeType.ALL, orphanRemoval = true) //operaciones en cascada y usuarios no asociados a empresa eliminados
+    private List<Usuario> usuarios = new ArrayList<>();
 
     public Empresa() {
     }
 
-    public Empresa(int idEmpresa, String cif, String nombreEmpresa, int telefono, String nombreAdmin, String pais, String provincia, String ciudad) {
-        this.idEmpresa=idEmpresa;
+    public Empresa(int idEmpresa, String cif, String nombreEmpresa, int telefono, String nombreadmin, String pais, String provincia, String ciudad, List<Usuario> usuarios) {
+        this.idEmpresa = idEmpresa;
         this.cif = cif;
         this.nombreEmpresa = nombreEmpresa;
         this.telefono = telefono;
-        this.nombreadmin = nombreAdmin;
+        this.nombreadmin = nombreadmin;
         this.pais = pais;
         this.provincia = provincia;
         this.ciudad = ciudad;
+        this.usuarios = usuarios;
     }
 
     public int getIdEmpresa() {
@@ -109,17 +108,26 @@ public class Empresa {
         this.ciudad = ciudad;
     }
 
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
     @Override
     public String toString() {
         return "Empresa{" +
-                "idEmpresa='" + idEmpresa + '\'' +
-                "CIF='" + cif + '\'' +
+                "idEmpresa=" + idEmpresa +
+                ", cif='" + cif + '\'' +
                 ", nombreEmpresa='" + nombreEmpresa + '\'' +
                 ", telefono=" + telefono +
-                ", nombreAdmin='" + nombreadmin + '\'' +
+                ", nombreadmin='" + nombreadmin + '\'' +
                 ", pais='" + pais + '\'' +
                 ", provincia='" + provincia + '\'' +
                 ", ciudad='" + ciudad + '\'' +
+                ", usuarios=" + usuarios +
                 '}';
     }
 }

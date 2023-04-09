@@ -1,38 +1,53 @@
 package com.ProyectoDamMPR.TimeToWork.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.Date;
 @Entity
 @Table(name="usuario")
 public class Usuario {
-    @Column @Id @GeneratedValue
+    @Column(name = "idusuario") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuario;
-    @Column
+    @Column(name = "nombreusuario")
     private String nombreUsuario = null;
-    @Column
+    @Column(name = "apellidosusuario")
     private String apellidosUsuario = null;
-    @Column
+    @Column(name = "telefono")
     private int telefono;
-    @Column
+    @Column(name = "direccion")
     private String direccion=null;
-    @Column
+    @Column(name = "empresausuario")
     private String empresaUsuario = null;
-    @Column
+    @Column(name = "lugartrabajo")
     private String lugarTrabajo = null;
-    @Column
+    @Column(name = "fechanacimiento")
     private String fechaNacimiento = null;
-    @Column
+    @Column(name = "correousuario")
     private String correoUsuario = null;
-    @Column
+    @Column(name = "contrasena")
     private String contrasena = null;
-    @Column
+    @Column(name = "esadmin")
     private boolean esAdmin = false;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idempresa")
+    private Empresa empresa_fk;
 
     public Usuario() {
     }
 
+    public Usuario(int idUsuario, String nombreUsuario, String apellidosUsuario, int telefono, String direccion, String empresaUsuario, String lugarTrabajo, String fechaNacimiento, String correoUsuario, String contrasena, boolean esAdmin, Empresa empresa_fk) {
+        this.idUsuario = idUsuario;
+        this.nombreUsuario = nombreUsuario;
+        this.apellidosUsuario = apellidosUsuario;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.empresaUsuario = empresaUsuario;
+        this.lugarTrabajo = lugarTrabajo;
+        this.fechaNacimiento = fechaNacimiento;
+        this.correoUsuario = correoUsuario;
+        this.contrasena = contrasena;
+        this.esAdmin = esAdmin;
+        this.empresa_fk = empresa_fk;
+    }
 
     public int getIdUsuario() {
         return idUsuario;
@@ -122,4 +137,11 @@ public class Usuario {
         this.esAdmin = esAdmin;
     }
 
+    public Empresa getEmpresa_fk() {
+        return empresa_fk;
+    }
+
+    public void setEmpresa_fk(Empresa empresa_fk) {
+        this.empresa_fk = empresa_fk;
+    }
 }
