@@ -27,8 +27,8 @@ public class UsuarioController {
     }
 
     @PostMapping ("/loginUsuario")
-    public Usuario iniciarSesion(@RequestBody CorreoContrasena correoContrasena) {
+    public String iniciarSesion(@RequestBody CorreoContrasena correoContrasena) {
         Usuario usuarioLogged = usuarioDAO.loginUsuario(correoContrasena);
-        return usuarioLogged;
+        return String.valueOf(usuarioLogged.getIdUsuario());
     }
 }

@@ -27,13 +27,13 @@ public class UsuarioDaoImp implements UsuarioDAO {
 
     @Override
     public Usuario loginUsuario(CorreoContrasena correoContrasena) {
-        List<Usuario> usuarios = entityManager.createQuery(" FROM Usuario u WHERE u.correousuario = :email").setParameter("email", correoContrasena.getCorreo()).getResultList();
-        entityManager.flush();
+        List<Usuario> usuarios = entityManager.createQuery(" FROM Usuario u WHERE u.correoUsuario = :email").setParameter("email", correoContrasena.getCorreo()).getResultList();
         if(!usuarios.isEmpty()){
             if(correoContrasena.getPassword() == usuarios.get(0).getContrasena()){
                 return usuarios.get(0);
             }
         }
+        entityManager.flush();
         return null;
     }
 
