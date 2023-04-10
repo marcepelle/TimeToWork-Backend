@@ -27,9 +27,10 @@ public class UsuarioController {
     }
 
     @PostMapping ("/loginUsuario")
-    public String iniciarSesion(@RequestBody CorreoContrasena correoContrasena) {
+    public Usuario iniciarSesion(@RequestBody CorreoContrasena correoContrasena) {
         System.out.println("Coreo y contrasena: " + correoContrasena.toString());
         Usuario usuarioLogged = usuarioDAO.loginUsuario(correoContrasena);
-        return String.valueOf(usuarioLogged.getIdUsuario());
+
+        return usuarioLogged;
     }
 }

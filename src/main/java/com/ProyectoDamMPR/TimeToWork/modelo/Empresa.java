@@ -1,14 +1,16 @@
 package com.ProyectoDamMPR.TimeToWork.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.NaturalId;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="Empresa")
-public class Empresa {
+public class Empresa implements Serializable {
     @Column(name = "idempresa") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idEmpresa;
     @Column(name = "CIF")
@@ -26,6 +28,7 @@ public class Empresa {
     private String provincia;
     @Column(name = "ciudad")
     private String ciudad;
+    @JsonIgnore
     @OneToMany(mappedBy = "empresa_fk", cascade = CascadeType.ALL, orphanRemoval = true) //operaciones en cascada y usuarios no asociados a empresa eliminados
     private List<Usuario> usuarios = new ArrayList<>();
 

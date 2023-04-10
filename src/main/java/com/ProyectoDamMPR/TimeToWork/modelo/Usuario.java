@@ -1,10 +1,13 @@
 package com.ProyectoDamMPR.TimeToWork.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name="usuario")
-public class Usuario {
+public class Usuario implements Serializable {
     @Column(name = "idusuario") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuario;
     @Column(name = "nombreusuario")
@@ -27,7 +30,7 @@ public class Usuario {
     private String contrasena = null;
     @Column(name = "esadmin")
     private boolean esAdmin = false;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idempresa")
     private Empresa empresa_fk;
 
@@ -143,5 +146,23 @@ public class Usuario {
 
     public void setEmpresa_fk(Empresa empresa_fk) {
         this.empresa_fk = empresa_fk;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUsuario=" + idUsuario +
+                ", nombreUsuario='" + nombreUsuario + '\'' +
+                ", apellidosUsuario='" + apellidosUsuario + '\'' +
+                ", telefono=" + telefono +
+                ", direccion='" + direccion + '\'' +
+                ", empresaUsuario='" + empresaUsuario + '\'' +
+                ", lugarTrabajo='" + lugarTrabajo + '\'' +
+                ", fechaNacimiento='" + fechaNacimiento + '\'' +
+                ", correoUsuario='" + correoUsuario + '\'' +
+                ", contrasena='" + contrasena + '\'' +
+                ", esAdmin=" + esAdmin +
+                ", empresa_fk=" + empresa_fk +
+                '}';
     }
 }
