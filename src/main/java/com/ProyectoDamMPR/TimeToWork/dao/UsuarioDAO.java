@@ -6,7 +6,5 @@ import com.ProyectoDamMPR.TimeToWork.modelo.Usuario;
 public interface UsuarioDAO {
     public void crearUsuario(Usuario u);
 
-    //public Usuario loginUsuario(Usuario usuario);
-
     Usuario loginUsuario(CorreoContrasena correoContrasena);
 }
