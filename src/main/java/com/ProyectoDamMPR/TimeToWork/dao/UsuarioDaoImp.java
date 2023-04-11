@@ -24,7 +24,6 @@ public class UsuarioDaoImp implements UsuarioDAO {
         entityManager.persist(u);
         entityManager.flush();
     }
-
     @Override
     public Usuario loginUsuario(CorreoContrasena correoContrasena) {
         System.out.println("contrasena DAO: " + correoContrasena.getPassword());
@@ -37,11 +36,20 @@ public class UsuarioDaoImp implements UsuarioDAO {
             System.out.println("No esta vacío");
             if(correoContrasena.getPassword().equals(usuarios.get(0).getContrasena())){
                 System.out.println("Dentro");
+                entityManager.flush();
                 return usuarios.get(0);
             }
         }
         entityManager.flush();
         return null;
+    }
+
+    public Usuario updateUsuario(Usuario usuario){
+        System.out.println("actualizando");
+        Usuario usuarioActualizado = entityManager.merge(usuario);
+        System.out.println(usuarioActualizado.toString());
+        entityManager.flush();
+        return usuarioActualizado;
     }
 
 }

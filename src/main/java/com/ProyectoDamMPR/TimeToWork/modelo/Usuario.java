@@ -162,7 +162,6 @@ public class Usuario implements Serializable {
                 ", correoUsuario='" + correoUsuario + '\'' +
                 ", contrasena='" + contrasena + '\'' +
                 ", esAdmin=" + esAdmin +
-                ", empresa_fk=" + empresa_fk +
                 '}';
     }
 }

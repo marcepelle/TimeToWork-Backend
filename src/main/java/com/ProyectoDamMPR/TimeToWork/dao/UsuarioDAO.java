@@ -7,4 +7,6 @@ public interface UsuarioDAO {
     public void crearUsuario(Usuario u);
 
     Usuario loginUsuario(CorreoContrasena correoContrasena);
+
+    public Usuario updateUsuario(Usuario usuario);
 }

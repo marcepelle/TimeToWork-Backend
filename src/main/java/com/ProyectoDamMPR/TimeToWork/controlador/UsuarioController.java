@@ -33,4 +33,11 @@ public class UsuarioController {
 
         return usuarioLogged;
     }
+
+    @PostMapping("/actualizarUsuario")
+    public Usuario actualizarUsuario(@RequestBody Usuario usuario){
+        Usuario usuarioActualizado = usuarioDAO.updateUsuario(usuario);
+        System.out.println("");
+        return usuarioActualizado;
+    }
 }
