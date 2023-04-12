@@ -30,7 +30,7 @@ public class Empresa implements Serializable {
     private String ciudad;
     @JsonIgnore
     @OneToMany(mappedBy = "empresa_fk", cascade = CascadeType.ALL, orphanRemoval = true) //operaciones en cascada y usuarios no asociados a empresa eliminados
-    private List<Usuario> usuarios = new ArrayList<>();
+    private List<Usuario> usuarios = new ArrayList<Usuario>();
 
     public Empresa() {
     }

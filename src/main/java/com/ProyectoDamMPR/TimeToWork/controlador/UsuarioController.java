@@ -8,6 +8,8 @@ import com.ProyectoDamMPR.TimeToWork.modelo.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping(path= "/usuarios")
 public class UsuarioController {
@@ -33,7 +35,10 @@ public class UsuarioController {
 
         return usuarioLogged;
     }
-
+    @PostMapping ("/listarUsuarios")
+    public ArrayList<Usuario> listarUsuarios(@RequestBody Usuario usuario){
+        return usuarioDAO.getUsuarios(usuario);
+    }
     @PostMapping("/actualizarUsuario")
     public Usuario actualizarUsuario(@RequestBody Usuario usuario){
         Usuario usuarioActualizado = usuarioDAO.updateUsuario(usuario);
