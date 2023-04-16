@@ -45,4 +45,10 @@ public class UsuarioController {
         System.out.println("");
         return usuarioActualizado;
     }
+
+    @PostMapping ("/borrarUsuario")
+    public void borrarUusario(@RequestBody Usuario usuario){
+        int res = usuarioDAO.RemoveUsuario(usuario);
+        System.out.println("Usuario: " + usuario.getNombreUsuario() + " eliminado: " + res);
+    }
 }

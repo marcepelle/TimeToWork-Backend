@@ -13,4 +13,6 @@ public interface UsuarioDAO {
     public Usuario updateUsuario(Usuario usuario);
 
     public ArrayList<Usuario> getUsuarios(Usuario usuario);
+
+    public int RemoveUsuario(Usuario usuario);
 }

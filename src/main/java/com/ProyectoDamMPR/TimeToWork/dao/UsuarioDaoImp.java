@@ -9,7 +9,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -45,16 +44,13 @@ public class UsuarioDaoImp implements UsuarioDAO {
         u.setEmpresa_fk(empresas.get(0));
         entityManager.persist(u);
         entityManager.flush();
+        System.out.println("Usuario creado");
     }
 
     public ArrayList<Usuario> getUsuarios(Usuario usuario){
         List<Empresa> empresaUser = entityManager.createQuery("select e.idEmpresa FROM Empresa e WHERE e.nombreEmpresa = :nom").setParameter("nom", usuario.getEmpresaUsuario()).getResultList();
         ArrayList<Usuario> usuarios = (ArrayList<Usuario>) entityManager.createQuery("FROM Usuario u WHERE u.empresaUsuario = :emp").setParameter("emp", usuario.getEmpresaUsuario()).getResultList();
         System.out.println("Obteniendo lista : " + usuarios.size() + usuarios.get(0).getNombreUsuario());
-        /*Iterator<Usuario> iteradorListU = usuarios.iterator();
-        while(iteradorListU.hasNext()){
-            iteradorListU.next().setEmpresa_fk(empresaUser.get(0));
-        }*/
         return usuarios;
     }
     public Usuario updateUsuario(Usuario usuario){
@@ -65,4 +61,10 @@ public class UsuarioDaoImp implements UsuarioDAO {
         return usuarioActualizado;
     }
 
+    public int RemoveUsuario(Usuario usuario){
+        System.out.println("Eliminando " + usuario.getNombreUsuario());
+        int resRemove = entityManager.createQuery("delete Usuario u where u.idUsuario = :id").setParameter("id", usuario.getIdUsuario()).executeUpdate();
+        entityManager.flush();
+        return resRemove;
+    }
 }
