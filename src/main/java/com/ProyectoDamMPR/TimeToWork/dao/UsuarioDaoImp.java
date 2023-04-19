@@ -47,6 +47,18 @@ public class UsuarioDaoImp implements UsuarioDAO {
         System.out.println("Usuario creado");
     }
 
+    public Usuario getUsuario(CorreoContrasena correoContrasena){
+        System.out.println("En obtencion de Usuario");
+        ArrayList<Usuario> usuarios = (ArrayList<Usuario>) entityManager.createQuery(" FROM Usuario u WHERE u.correoUsuario = :email")
+                .setParameter("email", correoContrasena.getCorreo())
+                .getResultList();
+        if (usuarios.size()!=0){
+            System.out.println("Usuario: " + usuarios.get(0));
+            return usuarios.get(0);
+        }
+        return new Usuario();
+    }
+
     public ArrayList<Usuario> getUsuarios(Usuario usuario){
         List<Empresa> empresaUser = entityManager.createQuery("select e.idEmpresa FROM Empresa e WHERE e.nombreEmpresa = :nom").setParameter("nom", usuario.getEmpresaUsuario()).getResultList();
         ArrayList<Usuario> usuarios = (ArrayList<Usuario>) entityManager.createQuery("FROM Usuario u WHERE u.empresaUsuario = :emp").setParameter("emp", usuario.getEmpresaUsuario()).getResultList();

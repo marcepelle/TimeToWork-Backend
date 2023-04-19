@@ -35,6 +35,10 @@ public class UsuarioController {
 
         return usuarioLogged;
     }
+    @PostMapping("/obtenerUsuario")
+    public Usuario obtenerUsuario(@RequestBody CorreoContrasena correoContrasena){
+        return usuarioDAO.getUsuario(correoContrasena);
+    }
     @PostMapping ("/listarUsuarios")
     public ArrayList<Usuario> listarUsuarios(@RequestBody Usuario usuario){
         return usuarioDAO.getUsuarios(usuario);

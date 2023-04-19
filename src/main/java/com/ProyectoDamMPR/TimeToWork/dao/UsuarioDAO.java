@@ -6,13 +6,10 @@ import java.util.ArrayList;
 
 
 public interface UsuarioDAO {
-    public void crearUsuario(Usuario u);
-
     Usuario loginUsuario(CorreoContrasena correoContrasena);
-
-    public Usuario updateUsuario(Usuario usuario);
-
+    public void crearUsuario(Usuario u);
+    public Usuario getUsuario(CorreoContrasena correoContrasena);
     public ArrayList<Usuario> getUsuarios(Usuario usuario);
-
+    public Usuario updateUsuario(Usuario usuario);
     public int RemoveUsuario(Usuario usuario);
 }

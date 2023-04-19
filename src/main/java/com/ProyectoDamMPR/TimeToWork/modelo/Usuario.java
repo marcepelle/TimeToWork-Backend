@@ -2,8 +2,11 @@ package com.ProyectoDamMPR.TimeToWork.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.NaturalId;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="usuario")
@@ -25,6 +28,7 @@ public class Usuario implements Serializable {
     @Column(name = "fechanacimiento")
     private String fechaNacimiento = null;
     @Column(name = "correousuario")
+    @NaturalId
     private String correoUsuario = null;
     @Column(name = "contrasena")
     private String contrasena = null;
@@ -33,6 +37,10 @@ public class Usuario implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idempresa")
     private Empresa empresa_fk;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario_fk", cascade = CascadeType.ALL, orphanRemoval = true) //operaciones en cascada y horarios no asociados a usuarios eliminados
+    private List<Horario> horarios = new ArrayList<Horario>();
 
     public Usuario() {
     }
