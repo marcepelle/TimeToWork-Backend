@@ -60,7 +60,6 @@ public class UsuarioDaoImp implements UsuarioDAO {
     }
 
     public ArrayList<Usuario> getUsuarios(Usuario usuario){
-        List<Empresa> empresaUser = entityManager.createQuery("select e.idEmpresa FROM Empresa e WHERE e.nombreEmpresa = :nom").setParameter("nom", usuario.getEmpresaUsuario()).getResultList();
         ArrayList<Usuario> usuarios = (ArrayList<Usuario>) entityManager.createQuery("FROM Usuario u WHERE u.empresaUsuario = :emp").setParameter("emp", usuario.getEmpresaUsuario()).getResultList();
         System.out.println("Obteniendo lista : " + usuarios.size() + usuarios.get(0).getNombreUsuario());
         return usuarios;

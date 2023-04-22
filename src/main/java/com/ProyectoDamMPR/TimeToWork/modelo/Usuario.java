@@ -42,10 +42,14 @@ public class Usuario implements Serializable {
     @OneToMany(mappedBy = "usuario_fk", cascade = CascadeType.ALL, orphanRemoval = true) //operaciones en cascada y horarios no asociados a usuarios eliminados
     private List<Horario> horarios = new ArrayList<Horario>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario_fk", cascade = CascadeType.ALL, orphanRemoval = true) //operaciones en cascada y mensajes no asociados a usuarios eliminados
+    private List<Mensaje> mensajes = new ArrayList<Mensaje>();
+
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String nombreUsuario, String apellidosUsuario, int telefono, String direccion, String empresaUsuario, String lugarTrabajo, String fechaNacimiento, String correoUsuario, String contrasena, boolean esAdmin, Empresa empresa_fk) {
+    public Usuario(int idUsuario, String nombreUsuario, String apellidosUsuario, int telefono, String direccion, String empresaUsuario, String lugarTrabajo, String fechaNacimiento, String correoUsuario, String contrasena, boolean esAdmin, Empresa empresa_fk, List<Horario> horarios, List<Mensaje> mensajes) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.apellidosUsuario = apellidosUsuario;
@@ -58,6 +62,8 @@ public class Usuario implements Serializable {
         this.contrasena = contrasena;
         this.esAdmin = esAdmin;
         this.empresa_fk = empresa_fk;
+        this.horarios = horarios;
+        this.mensajes = mensajes;
     }
 
     public int getIdUsuario() {
@@ -154,6 +160,22 @@ public class Usuario implements Serializable {
 
     public void setEmpresa_fk(Empresa empresa_fk) {
         this.empresa_fk = empresa_fk;
+    }
+
+    public List<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
+    }
+
+    public List<Mensaje> getMensajes() {
+        return mensajes;
+    }
+
+    public void setMensajes(List<Mensaje> mensajes) {
+        this.mensajes = mensajes;
     }
 
     @Override
