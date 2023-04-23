@@ -22,7 +22,7 @@ public class MensajeDAOImp implements MensajeDao{
 
     @Override
     public ArrayList<Mensaje> getMensajesEnviados(Usuario usuario) {
-        ArrayList<Mensaje> enviados = (ArrayList<Mensaje>) entityManager.createQuery("FROM Mensaje m WHERE m.de = :emailde ORDER BY m.fecha").setParameter("emailde", usuario.getCorreoUsuario()).getResultList();
+        ArrayList<Mensaje> enviados = (ArrayList<Mensaje>) entityManager.createQuery("FROM Mensaje m WHERE m.de = :emailde ORDER BY m.fecha DESC, m.hora DESC").setParameter("emailde", usuario.getCorreoUsuario()).getResultList();
         if (enviados.size()!=0){
             System.out.println("Enviados: " + enviados.size());
             entityManager.flush();
@@ -34,7 +34,7 @@ public class MensajeDAOImp implements MensajeDao{
 
     @Override
     public ArrayList<Mensaje> getMensajesRecibidos(Usuario usuario) {
-        ArrayList<Mensaje> recibidos = (ArrayList<Mensaje>) entityManager.createQuery("FROM Mensaje m WHERE m.para = :emailpara ORDER BY m.fecha").setParameter("emailpara", usuario.getCorreoUsuario()).getResultList();
+        ArrayList<Mensaje> recibidos = (ArrayList<Mensaje>) entityManager.createQuery("FROM Mensaje m WHERE m.para = :emailpara ORDER BY m.fecha DESC, m.hora DESC").setParameter("emailpara", usuario.getCorreoUsuario()).getResultList();
         if (recibidos.size()!=0){
             System.out.println("Recibidos: " + recibidos.size());
             entityManager.flush();
