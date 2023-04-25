@@ -21,11 +21,11 @@ public class UsuarioDaoImp implements UsuarioDAO {
     public Usuario loginUsuario(CorreoContrasena correoContrasena) {
         System.out.println("contrasena DAO: " + correoContrasena.getPassword());
         List<Usuario> usuarios = entityManager.createQuery(" FROM Usuario u WHERE u.correoUsuario = :email").setParameter("email", correoContrasena.getCorreo()).getResultList();
-        List<Empresa> empresas = entityManager.createQuery(" FROM Empresa e WHERE e.nombreEmpresa = :nom").setParameter("nom", usuarios.get(0).getEmpresaUsuario()).getResultList();
-        System.out.println("Empresas Vacio: " + empresas.isEmpty());
-        usuarios.get(0).setEmpresa_fk(empresas.get(0));
         System.out.println("Usuarios Vacio: " + usuarios.isEmpty());
         if(!usuarios.isEmpty()){
+            List<Empresa> empresas = entityManager.createQuery(" FROM Empresa e WHERE e.nombreEmpresa = :nom").setParameter("nom", usuarios.get(0).getEmpresaUsuario()).getResultList();
+            System.out.println("Empresas Vacio: " + empresas.isEmpty());
+            usuarios.get(0).setEmpresa_fk(empresas.get(0));
             System.out.println("No esta vacío");
             if(correoContrasena.getPassword().equals(usuarios.get(0).getContrasena())){
                 System.out.println("Dentro");
