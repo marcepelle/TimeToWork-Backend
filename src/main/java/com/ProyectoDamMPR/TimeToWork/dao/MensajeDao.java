@@ -11,4 +11,8 @@ public interface MensajeDao {
     public ArrayList<Mensaje> getMensajesEnviados(Usuario usuario);
 
     public ArrayList<Mensaje> getMensajesRecibidos(Usuario usuario);
+
+    public void mensajeVistoDe(Mensaje mensaje);
+
+    public void mensajeVistoPara(Mensaje mensaje);
 }

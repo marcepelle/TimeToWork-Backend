@@ -41,14 +41,33 @@ public class Mensaje {
     @Column(name = "contenido", length = 65535)
     private String contenido;
 
-    @Column(name = "visto")
-    private boolean visto;
+    @Column(name = "vistode")
+    private boolean vistoDe;
+
+    @Column(name = "vistopara")
+    private boolean vistoPara;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idusuario")
     private Usuario usuario_fk;
 
     public Mensaje() {
+    }
+
+    public Mensaje(int idMensaje, String de, String para, LocalDate fecha, LocalTime hora, String nomEmpresa, String centroDe, String centroPara, String asunto, String contenido, boolean vistoDe, boolean vistoPara, Usuario usuario_fk) {
+        this.idMensaje = idMensaje;
+        this.de = de;
+        this.para = para;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.nomEmpresa = nomEmpresa;
+        this.centroDe = centroDe;
+        this.centroPara = centroPara;
+        this.asunto = asunto;
+        this.contenido = contenido;
+        this.vistoDe = vistoDe;
+        this.vistoPara = vistoPara;
+        this.usuario_fk = usuario_fk;
     }
 
     public int getIdMensaje() {
@@ -131,20 +150,28 @@ public class Mensaje {
         this.contenido = contenido;
     }
 
-    public boolean isVisto() {
-        return visto;
-    }
-
-    public void setVisto(boolean visto) {
-        this.visto = visto;
-    }
-
     public Usuario getUsuario_fk() {
         return usuario_fk;
     }
 
     public void setUsuario_fk(Usuario usuario_fk) {
         this.usuario_fk = usuario_fk;
+    }
+
+    public boolean isVistoDe() {
+        return vistoDe;
+    }
+
+    public void setVistoDe(boolean vistoDe) {
+        this.vistoDe = vistoDe;
+    }
+
+    public boolean isVistoPara() {
+        return vistoPara;
+    }
+
+    public void setVistoPara(boolean vistoPara) {
+        this.vistoPara = vistoPara;
     }
 
     @Override
@@ -160,7 +187,8 @@ public class Mensaje {
                 ", centroPara='" + centroPara + '\'' +
                 ", asunto='" + asunto + '\'' +
                 ", contenido='" + contenido + '\'' +
-                ", visto=" + visto +
+                ", vistoDe=" + vistoDe +
+                ", vistoPara=" + vistoPara +
                 '}';
     }
 }

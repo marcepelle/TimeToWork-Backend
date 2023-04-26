@@ -8,6 +8,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,15 +21,16 @@ public class UsuarioDaoImp implements UsuarioDAO {
     EntityManager entityManager;
     @Override
     public Usuario loginUsuario(CorreoContrasena correoContrasena) {
-        System.out.println("contrasena DAO: " + correoContrasena.getPassword());
         List<Usuario> usuarios = entityManager.createQuery(" FROM Usuario u WHERE u.correoUsuario = :email").setParameter("email", correoContrasena.getCorreo()).getResultList();
         System.out.println("Usuarios Vacio: " + usuarios.isEmpty());
+        String hashCorreoContrasena = obtenerHash(correoContrasena.getPassword());
+        System.out.println("contrasena DAO: " + hashCorreoContrasena);
         if(!usuarios.isEmpty()){
             List<Empresa> empresas = entityManager.createQuery(" FROM Empresa e WHERE e.nombreEmpresa = :nom").setParameter("nom", usuarios.get(0).getEmpresaUsuario()).getResultList();
             System.out.println("Empresas Vacio: " + empresas.isEmpty());
             usuarios.get(0).setEmpresa_fk(empresas.get(0));
             System.out.println("No esta vacío");
-            if(correoContrasena.getPassword().equals(usuarios.get(0).getContrasena())){
+            if(hashCorreoContrasena.equals(usuarios.get(0).getContrasena())){
                 System.out.println("Dentro");
                 entityManager.flush();
                 return usuarios.get(0);
@@ -42,9 +45,26 @@ public class UsuarioDaoImp implements UsuarioDAO {
         //Creamos una lista de empresas para la respuesta que nos dará la query al buscar en la tabla empresa una empresa que contenga el nombre de la que corresponde el usuario
         List<Empresa> empresas = entityManager.createQuery(" FROM Empresa e WHERE e.nombreEmpresa = :nom").setParameter("nom", u.getEmpresaUsuario()).getResultList();
         u.setEmpresa_fk(empresas.get(0));
+        String hashContrasena = obtenerHash(u.getContrasena());
+        u.setContrasena(hashContrasena);
         entityManager.persist(u);
         entityManager.flush();
         System.out.println("Usuario creado");
+    }
+
+    private String obtenerHash(String contrasena) {
+
+        String hashContrasena = null;
+        try {
+            MessageDigest hashear = MessageDigest.getInstance("SHA-256");
+            hashear.reset();
+            hashear.update(contrasena.getBytes("utf8"));
+            hashContrasena = String.format("%064x", new BigInteger(1, hashear.digest()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return hashContrasena;
     }
 
     public Usuario getUsuario(CorreoContrasena correoContrasena){

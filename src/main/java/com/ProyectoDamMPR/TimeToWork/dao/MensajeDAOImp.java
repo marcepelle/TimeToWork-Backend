@@ -43,4 +43,28 @@ public class MensajeDAOImp implements MensajeDao{
         entityManager.flush();
         return new ArrayList<Mensaje>();
     }
+
+    public void mensajeVistoDe(Mensaje mensaje){
+       ArrayList<Mensaje> mensajes = (ArrayList<Mensaje>) entityManager.createQuery("FROM Mensaje m WHERE m.idMensaje = :id").setParameter("id", mensaje.getIdMensaje()).getResultList();
+        if(mensajes.size()!=0){
+            mensajes.get(0).setVistoDe(true);
+            entityManager.merge(mensajes.get(0));
+            System.out.println("Mensaje visto de");
+        }else{
+            System.out.println("Mensaje no encontrado");
+        }
+        entityManager.flush();
+    }
+
+    public void mensajeVistoPara(Mensaje mensaje){
+        ArrayList<Mensaje> mensajes = (ArrayList<Mensaje>) entityManager.createQuery("FROM Mensaje m WHERE m.idMensaje = :id").setParameter("id", mensaje.getIdMensaje()).getResultList();
+        if(mensajes.size()!=0){
+            mensajes.get(0).setVistoPara(true);
+            entityManager.merge(mensajes.get(0));
+            System.out.println("Mensaje visto para");
+        }else{
+            System.out.println("Mensaje no encontrado");
+        }
+        entityManager.flush();
+    }
 }

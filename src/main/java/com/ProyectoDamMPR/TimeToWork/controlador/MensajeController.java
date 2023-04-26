@@ -35,4 +35,16 @@ public class MensajeController {
         System.out.println("Obteniendo Enviados:......");
         return mensajeDao.getMensajesEnviados(usuario);
     }
+
+    @PostMapping("/mensajeVistoDe")
+    public void vistoDe(@RequestBody Mensaje mensaje){
+        mensajeDao.mensajeVistoDe(mensaje);
+       System.out.println("Dentro de mensaje visto De:" + mensaje.getDe());
+    }
+
+    @PostMapping("/mensajeVistoPara")
+    public void vistoPara(@RequestBody Mensaje mensaje){
+        mensajeDao.mensajeVistoPara(mensaje);
+        System.out.println("Dentro de mensaje visto Para" + mensaje.getPara());
+    }
 }

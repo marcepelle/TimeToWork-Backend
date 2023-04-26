@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Transactional
 @Repository
-public class EmpresaDAOImp implements EmpresaDAO {
+public class
+EmpresaDAOImp implements EmpresaDAO {
     @PersistenceContext
     EntityManager entityManager;
     @Override

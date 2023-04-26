@@ -30,7 +30,7 @@ public class Usuario implements Serializable {
     @Column(name = "correousuario")
     @NaturalId
     private String correoUsuario = null;
-    @Column(name = "contrasena")
+    @Column(name = "contrasena", length = 256)
     private String contrasena = null;
     @Column(name = "esadmin")
     private boolean esAdmin = false;
