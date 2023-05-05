@@ -86,6 +86,8 @@ public class UsuarioDaoImp implements UsuarioDAO {
     }
     public Usuario updateUsuario(Usuario usuario){
         System.out.println("actualizando");
+        String hashContrasena = obtenerHash(usuario.getContrasena());
+        usuario.setContrasena(hashContrasena);
         Usuario usuarioActualizado = entityManager.merge(usuario);
         System.out.println(usuarioActualizado.toString());
         entityManager.flush();
