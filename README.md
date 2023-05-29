@@ -14,8 +14,8 @@ Backend of the app TimeToWork
           - mysql-connector-j (version 8.0.32)
 
 -	La Base de Datos que almacenará la información de los usuarios contiene las siguientes tecnologías:
-  o	Gestor del servidor de la base de datos: XAMPP (Version: 8.1.10; Control Panel Version: 3.3.0)
-  o	Servido de la Base de datos: Apache 2.4.54
-  o	Gestor de la Base de datos: PhpMyAdmin
-  o	Sistema de Base de datos: MySQL
+      -	Gestor del servidor de la base de datos: XAMPP (Version: 8.1.10; Control Panel Version: 3.3.0)
+      -	Servido de la Base de datos: Apache 2.4.54
+      -	Gestor de la Base de datos: PhpMyAdmin
+      -	Sistema de Base de datos: MySQL
 
