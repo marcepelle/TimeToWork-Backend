@@ -9,9 +9,9 @@ Backend of the app TimeToWork
     -	Servidor servicio web: Apache Tomcat/10.1.7
     -	ORM: Hibernate ORM core version 6.1.7.Final
     -	Dependencies para servidor del API y conectar a la Base de datos:
-      -	spring-boot-starter-web
-      - spring-boot-starter-data-jpa (version 3.0.5)
-      - mysql-connector-j (version 8.0.32)
+          o	spring-boot-starter-web
+          o spring-boot-starter-data-jpa (version 3.0.5)
+          o mysql-connector-j (version 8.0.32)
 
 -	La Base de Datos que almacenará la información de los usuarios contiene las siguientes tecnologías:
   o	Gestor del servidor de la base de datos: XAMPP (Version: 8.1.10; Control Panel Version: 3.3.0)
