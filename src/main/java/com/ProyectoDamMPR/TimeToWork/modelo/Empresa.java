@@ -8,30 +8,32 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name="Empresa")
+@Entity //Marcamos la clase como una entidad de hibernate para la persistencia en la base de datos
+@Table(name="Empresa") //Indicamos a que tabla haremos referencia en la base de datos con esta clase
 public class Empresa implements Serializable {
-    @Column(name = "idempresa") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idempresa") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) //que va a ser clave primaria y que su valor será autogenerado
     private int idEmpresa;
-    @Column(name = "CIF")
+    @Column(name = "CIF") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String cif;
-    @Column(name = "nombreempresa")
-    @NaturalId
+    @Column(name = "nombreempresa") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
+    @NaturalId //representa un identificador natural
     private String nombreEmpresa;
-    @Column(name = "telefono")
+    @Column(name = "telefono") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private int telefono;
-    @Column(name = "nombreadmin")
+    @Column(name = "nombreadmin") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String nombreadmin;
-    @Column(name = "pais")
+    @Column(name = "pais") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String pais;
-    @Column(name = "provincia")
+    @Column(name = "provincia") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String provincia;
-    @Column(name = "ciudad")
+    @Column(name = "ciudad") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String ciudad;
-    @JsonIgnore
-    @OneToMany(mappedBy = "empresa_fk", cascade = CascadeType.ALL, orphanRemoval = true) //operaciones en cascada y usuarios no asociados a empresa eliminados
+    @JsonIgnore //Indicamos que evite la serialización y la deserialización de este campo para evitar llamadas recursivas
+    @OneToMany(mappedBy = "empresa_fk", cascade = CascadeType.ALL, orphanRemoval = true) //Indicamos que la relación con la entidad Usuario es de uno a varios, cual es la clave foranea de Usuario referenciada y definimos que las operaciones se hagan en cascada y usuarios no asociados a empresas eliminados
     private List<Usuario> usuarios = new ArrayList<Usuario>();
 
+    //Constructores
     public Empresa() {
     }
 
@@ -47,6 +49,7 @@ public class Empresa implements Serializable {
         this.usuarios = usuarios;
     }
 
+    //Getters y Setters
     public int getIdEmpresa() {
         return idEmpresa;
     }
@@ -119,6 +122,7 @@ public class Empresa implements Serializable {
         this.usuarios = usuarios;
     }
 
+    //Método toString
     @Override
     public String toString() {
         return "Empresa{" +

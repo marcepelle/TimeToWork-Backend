@@ -7,50 +7,52 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "Mensaje")
+@Entity //Marcamos la clase como una entidad de hibernate para la persistencia en la base de datos
+@Table(name = "Mensaje") //Indicamos a que tabla haremos referencia en la base de datos con esta clase
 public class Mensaje {
-    @Column(name = "idmensaje") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idmensaje") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) //que va a ser clave primaria y que su valor será autogenerado
     private int idMensaje;
 
-    @Column(name = "de")
+    @Column(name = "de") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String de;
 
-    @Column(name = "para")
+    @Column(name = "para") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String para;
 
-    @Column(name = "fecha")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "fecha") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
+    @JsonFormat(pattern = "yyyy-MM-dd") //Formato de la fecha al serializar y deserializar el Mensaje
     private LocalDate fecha;
 
-    @Column(name = "hora")
+    @Column(name = "hora") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private LocalTime hora;
 
-    @Column(name = "nomempresa")
+    @Column(name = "nomempresa") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String nomEmpresa;
 
-    @Column(name = "centrode")
+    @Column(name = "centrode") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String centroDe;
 
-    @Column(name = "centropara")
+    @Column(name = "centropara") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String centroPara;
 
-    @Column(name = "asunto")
+    @Column(name = "asunto") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String asunto;
 
-    @Column(name = "contenido", length = 65535)
+    @Column(name = "contenido", length = 65535) //Indicamos a que columna de la tabla se hace referencia con este campo de clase y la longitud máxima de sus valores
     private String contenido;
 
-    @Column(name = "vistode")
+    @Column(name = "vistode") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private boolean vistoDe;
 
-    @Column(name = "vistopara")
+    @Column(name = "vistopara") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private boolean vistoPara;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idusuario")
+    @ManyToOne(fetch = FetchType.EAGER) //Indicamos que la entidad tendrá una relación varios a uno con la entidad Usuario y que la carga de los objetos de la relación se produce en el mismo momento
+    @JoinColumn(name = "idusuario") //Indicamos que campo de la clase Usuario corresponderá con la clave foranea
     private Usuario usuario_fk;
 
+    //Constructores
     public Mensaje() {
     }
 
@@ -70,6 +72,8 @@ public class Mensaje {
         this.usuario_fk = usuario_fk;
     }
 
+
+    //Getters y Setters
     public int getIdMensaje() {
         return idMensaje;
     }
@@ -174,6 +178,7 @@ public class Mensaje {
         this.vistoPara = vistoPara;
     }
 
+    //Método toString
     @Override
     public String toString() {
         return "Mensaje{" +

@@ -6,32 +6,34 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "Horario")
+@Entity //Marcamos la clase como una entidad de hibernate para la persistencia en la base de datos
+@Table(name = "Horario") //Indicamos a que tabla haremos referencia en la base de datos con esta clase
 public class Horario {
-    @Column(name = "idhorario") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idhorario") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) //que va a ser clave primaria y que su valor será autogenerado
     private int idHorario;
-    @Column(name = "empleado")
+    @Column(name = "empleado") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String empleado = null;
-    @Column(name = "correoempleado")
+    @Column(name = "correoempleado") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String correoEmpleado = null;
-    @Column(name = "fecha")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "fecha") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
+    @JsonFormat(pattern = "yyyy-MM-dd") //Formato de la fecha al serializar y deserializar el Mensaje
     private LocalDate fecha;
-    @Column(name = "centrotrabajo")
+    @Column(name = "centrotrabajo") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String centroTrabajo = null;
-    @Column(name = "horaentrada")
+    @Column(name = "horaentrada") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private LocalTime horaEntrada;
-    @Column(name = "horasalida")
+    @Column(name = "horasalida") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private LocalTime horaSalida;
-    @Column(name = "fichaentrada")
+    @Column(name = "fichaentrada") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private LocalTime fichaEntrada;
-    @Column(name = "fichasalida")
+    @Column(name = "fichasalida") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private LocalTime fichaSalida;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idusuario")
+    @ManyToOne(fetch = FetchType.EAGER) //Indicamos que la entidad tendrá una relación varios a uno con la entidad Usuario y que la carga de los objetos de la relación se produce en el mismo momento
+    @JoinColumn(name = "idusuario") //Indicamos que campo de la clase Usuario corresponderá con la clave foranea
     private Usuario usuario_fk;
 
+    //Constructores
     public Horario() {
     }
 
@@ -48,6 +50,7 @@ public class Horario {
         this.usuario_fk = usuario_fk;
     }
 
+    //Getters y Setters
     public int getIdHorario() {
         return idHorario;
     }
@@ -128,6 +131,7 @@ public class Horario {
         this.usuario_fk = usuario_fk;
     }
 
+    //Método toString
     @Override
     public String toString() {
         return "Horario{" +

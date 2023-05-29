@@ -8,44 +8,46 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name="usuario")
+@Entity //Marcamos la clase como una entidad de hibernate para la persistencia en la base de datos
+@Table(name="usuario") //Indicamos a que tabla haremos referencia en la base de datos con esta clase
 public class Usuario implements Serializable {
-    @Column(name = "idusuario") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idusuario") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) //que va a ser clave primaria y que su valor será autogenerado
     private int idUsuario;
-    @Column(name = "nombreusuario")
+    @Column(name = "nombreusuario") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String nombreUsuario = null;
-    @Column(name = "apellidosusuario")
+    @Column(name = "apellidosusuario") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String apellidosUsuario = null;
-    @Column(name = "telefono")
+    @Column(name = "telefono") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private int telefono;
-    @Column(name = "direccion")
+    @Column(name = "direccion") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String direccion=null;
-    @Column(name = "empresausuario")
+    @Column(name = "empresausuario") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String empresaUsuario = null;
-    @Column(name = "lugartrabajo")
+    @Column(name = "lugartrabajo") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String lugarTrabajo = null;
-    @Column(name = "fechanacimiento")
+    @Column(name = "fechanacimiento") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private String fechaNacimiento = null;
-    @Column(name = "correousuario")
-    @NaturalId
+    @Column(name = "correousuario") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
+    @NaturalId // representa un identificador natural
     private String correoUsuario = null;
-    @Column(name = "contrasena", length = 256)
+    @Column(name = "contrasena", length = 256) //Indicamos a que columna de la tabla se hace referencia con este campo de clase y la longitud máxima de sus valores
     private String contrasena = null;
-    @Column(name = "esadmin")
+    @Column(name = "esadmin") //Indicamos a que columna de la tabla se hace referencia con este campo de clase
     private boolean esAdmin = false;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idempresa")
+    @ManyToOne(fetch = FetchType.EAGER) //Indicamos que la entidad tendrá una relación varios a uno con la entidad Empresa y que la carga de los objetos de la relación se produce en el mismo momento
+    @JoinColumn(name = "idempresa") //Indicamos que campo de la clase Empresa corresponderá con la clave foranea
     private Empresa empresa_fk;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "usuario_fk", cascade = CascadeType.ALL, orphanRemoval = true) //operaciones en cascada y horarios no asociados a usuarios eliminados
+    @JsonIgnore //Indicamos que evite la serialización y la deserialización de este campo para evitar llamadas recursivas
+    @OneToMany(mappedBy = "usuario_fk", cascade = CascadeType.ALL, orphanRemoval = true) //Indicamos que la relación con la entidad Horario es de uno a varios, cual es la clave foranea de Horario referenciada y definimos que las operaciones se hagan en cascada y horarios no asociados a usuarios que sean eliminados
     private List<Horario> horarios = new ArrayList<Horario>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "usuario_fk", cascade = CascadeType.ALL, orphanRemoval = true) //operaciones en cascada y mensajes no asociados a usuarios eliminados
+    @JsonIgnore //Indicamos que evite la serialización y la deserialización de este campo para evitar llamadas recursivas
+    @OneToMany(mappedBy = "usuario_fk", cascade = CascadeType.ALL, orphanRemoval = true) //Indicamos que la relación con la entidad Mensaje es de uno a varios, cual es la clave foranea de Mensaje referenciada y definimos que las operaciones se hagan en cascada y mensajes no asociados a usuarios eliminados
     private List<Mensaje> mensajes = new ArrayList<Mensaje>();
 
+    //Constructores
     public Usuario() {
     }
 
@@ -65,6 +67,8 @@ public class Usuario implements Serializable {
         this.horarios = horarios;
         this.mensajes = mensajes;
     }
+
+    //Getters y Setters
 
     public int getIdUsuario() {
         return idUsuario;
@@ -178,6 +182,7 @@ public class Usuario implements Serializable {
         this.mensajes = mensajes;
     }
 
+    //Método toString
     @Override
     public String toString() {
         return "Usuario{" +
