@@ -4,10 +4,7 @@ import com.ProyectoDamMPR.TimeToWork.dao.MensajeDao;
 import com.ProyectoDamMPR.TimeToWork.modelo.Mensaje;
 import com.ProyectoDamMPR.TimeToWork.modelo.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -24,25 +21,25 @@ public class MensajeController {
     }
 
 
-    @PostMapping("/obtenerRecibidos") //A través de un método Post en la ruta declarada se devuelve un listado de mensajes recibidos para el usuario pasado en la petición
-    public ArrayList<Mensaje> getRecibidos(@RequestBody Usuario usuario){ //Con RequestBody deserializamos un objeto usuario a partir del cuerpo de la petición
+    @GetMapping("/obtenerRecibidos") //A través de un método Post en la ruta declarada se devuelve un listado de mensajes recibidos para el usuario pasado en la petición
+    public ArrayList<Mensaje> getRecibidos(@RequestParam("correo") String correo){ //Con RequestBody deserializamos un objeto usuario a partir del cuerpo de la petición
         System.out.println("Obteniendo Recibidos:......");
-        return mensajeDao.getMensajesRecibidos(usuario);
+        return mensajeDao.getMensajesRecibidos(correo);
     }
 
-    @PostMapping("/obtenerEnviados") //A través de un método Post en la ruta declarada se devuelve un listado de mensajes envíados para el usuario pasado en la petición
-    public ArrayList<Mensaje> getEnviados(@RequestBody Usuario usuario){ //Con RequestBody deserializamos un objeto usuario a partir del cuerpo de la petición
+    @GetMapping("/obtenerEnviados") //A través de un método Post en la ruta declarada se devuelve un listado de mensajes envíados para el usuario pasado en la petición
+    public ArrayList<Mensaje> getEnviados(@RequestParam("correo") String correo){ //Con RequestBody deserializamos un objeto usuario a partir del cuerpo de la petición
         System.out.println("Obteniendo Enviados:......");
-        return mensajeDao.getMensajesEnviados(usuario);
+        return mensajeDao.getMensajesEnviados(correo);
     }
 
-    @PostMapping("/mensajeVistoDe")  //A través de un método Post en la ruta declarada se fijará como true el atributo vistoDe del mensaje que se envío en la petición
+    @PutMapping("/mensajeVistoDe")  //A través de un método Post en la ruta declarada se fijará como true el atributo vistoDe del mensaje que se envío en la petición
     public void vistoDe(@RequestBody Mensaje mensaje){ //Con RequestBody deserializamos un objeto mensaje a partir del cuerpo de la petición
         mensajeDao.mensajeVistoDe(mensaje);
        System.out.println("Dentro de mensaje visto De:" + mensaje.getDe());
     }
 
-    @PostMapping("/mensajeVistoPara") //A través de un método Post en la ruta declarada se fijará como true el atributo vistoPara del mensaje que se envío en la petición
+    @PutMapping("/mensajeVistoPara") //A través de un método Post en la ruta declarada se fijará como true el atributo vistoPara del mensaje que se envío en la petición
     public void vistoPara(@RequestBody Mensaje mensaje){  //Con RequestBody deserializamos un objeto mensaje a partir del cuerpo de la petición
         mensajeDao.mensajeVistoPara(mensaje);
         System.out.println("Dentro de mensaje visto Para" + mensaje.getPara());

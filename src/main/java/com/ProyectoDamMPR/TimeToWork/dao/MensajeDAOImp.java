@@ -21,9 +21,9 @@ public class MensajeDAOImp implements MensajeDao{ //implementamos la interfaz Me
     }
 
     @Override
-    public ArrayList<Mensaje> getMensajesEnviados(Usuario usuario) { //Devuelve el listado de mensajes envíados para el usuario pasado
+    public ArrayList<Mensaje> getMensajesEnviados(String correo) { //Devuelve el listado de mensajes envíados para el usuario pasado
         ArrayList<Mensaje> enviados = (ArrayList<Mensaje>) entityManager.createQuery("FROM Mensaje m WHERE m.de = :emailde ORDER BY m.fecha DESC, m.hora DESC")
-                .setParameter("emailde", usuario.getCorreoUsuario())
+                .setParameter("emailde", correo)
                 .getResultList(); // La consulta nos devolverá un listado de mensajes para los registros que contengan en el campo "de" el correo del usuario pasado, estarán ordenados por fecha y hora en orden descendente
         if (enviados.size()!=0){ //Si el listado no esta vacío
             System.out.println("Enviados: " + enviados.size());
@@ -35,9 +35,9 @@ public class MensajeDAOImp implements MensajeDao{ //implementamos la interfaz Me
     }
 
     @Override
-    public ArrayList<Mensaje> getMensajesRecibidos(Usuario usuario) { //Devuelve el listado de mensajes recibidos para el usuario pasado
+    public ArrayList<Mensaje> getMensajesRecibidos(String correo) { //Devuelve el listado de mensajes recibidos para el usuario pasado
         ArrayList<Mensaje> recibidos = (ArrayList<Mensaje>) entityManager.createQuery("FROM Mensaje m WHERE m.para = :emailpara ORDER BY m.fecha DESC, m.hora DESC")
-                .setParameter("emailpara", usuario.getCorreoUsuario())
+                .setParameter("emailpara", correo)
                 .getResultList(); // La consulta nos devolverá un listado de mensajes para los registros que contengan en el campo "para" el correo del usuario pasado, estarán ordenados por fecha y hora en orden descendente
         if (recibidos.size()!=0){ //Si el listado no esta vacío
             System.out.println("Recibidos: " + recibidos.size());

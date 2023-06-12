@@ -42,16 +42,33 @@ public class UsuarioDaoImp implements UsuarioDAO { //implementamos la interfaz U
     }
 
     @Override
-    public void crearUsuario(Usuario u) { //Creamos el usuario pasado en la base de datos
-        List<Empresa> empresas = entityManager.createQuery(" FROM Empresa e WHERE e.nombreEmpresa = :nom")
-                .setParameter("nom", u.getEmpresaUsuario())
-                .getResultList();  // La consulta nos devolverá un listado de empresas para los registros que contengan el nombre de la empresa que corresponde del usuario pasado
-        u.setEmpresa_fk(empresas.get(0)); //fijamos el objeto empresa que nos ha devuelto la consulta en el atributo que corresponde a la clave ajena de Usuario
-        String hashContrasena = obtenerHash(u.getContrasena()); //obtenemos el hash de la contraseña que introdujo el usuario
-        u.setContrasena(hashContrasena); //fijamos la contraseña haseheada
-        entityManager.persist(u); //hacemos que persista el objeto Usuario en la base de datos
-        entityManager.flush(); //sincronizamos la conexión con la base de datos
-        System.out.println("Usuario creado");
+    public int crearUsuario(Usuario u) { //Creamos el usuario pasado en la base de datos
+        try {
+            List<Empresa> empresas = entityManager.createQuery(" FROM Empresa e WHERE e.nombreEmpresa = :nom")
+                    .setParameter("nom", u.getEmpresaUsuario())
+                    .getResultList();  // La consulta nos devolverá un listado de empresas para los registros que contengan el nombre de la empresa que corresponde del usuario pasado
+            List<Usuario> usuarios = entityManager.createQuery(" FROM Usuario u WHERE u.correoUsuario = :correo")
+                    .setParameter("correo", u.getCorreoUsuario())
+                    .getResultList();  // La consulta nos devolverá un listado de empresas para los registros que contengan el mismo correo del usuario de la petición
+            if(usuarios.isEmpty()){ //comprobamos que no exista un correo para el usuario a crear
+                u.setEmpresa_fk(empresas.get(0)); //fijamos el objeto empresa que nos ha devuelto la consulta en el atributo que corresponde a la clave ajena de Usuario
+                String hashContrasena = obtenerHash(u.getContrasena()); //obtenemos el hash de la contraseña que introdujo el usuario
+                u.setContrasena(hashContrasena); //fijamos la contraseña haseheada
+                entityManager.persist(u); //hacemos que persista el objeto Usuario en la base de datos
+                entityManager.flush(); //sincronizamos la conexión con la base de datos
+                System.out.println("Usuario creado");
+                return 1; //si se crea el usuario devolvemos 1 en la respuesta
+            }
+            if(u.isEsAdmin()){ //En el caso de que el usuario a crear fuera administrador y ya existiese un correo para el usuario a crear, no se crearía el usuario y se eliminaría la empresa
+                entityManager.createQuery("delete Empresa e where e.nombreEmpresa = :nom")
+                        .setParameter("nom", u.getEmpresaUsuario())
+                        .executeUpdate(); //Hacemos el delete donde el nombre de la empresa coincide con el pasado por parámetro
+            }
+                return 0; //si no se crea el usuario devolvemos 0 en la respuesta
+        }catch (Exception e){
+            System.out.println("Error al crear usuario: " + u.getNombreUsuario() + " Error: " + e.getMessage());
+            return 0;
+        }
     }
 
     private String obtenerHash(String contrasena) { //Método para obtener el hash de la contraseña pasada
@@ -69,10 +86,10 @@ public class UsuarioDaoImp implements UsuarioDAO { //implementamos la interfaz U
         return hashContrasena;
     }
 
-    public Usuario getUsuario(CorreoContrasena correoContrasena){ //Devuelve el usuario para el correo pasado
+    public Usuario getUsuario(String correo){ //Devuelve el usuario para el correo pasado
         System.out.println("En obtencion de Usuario");
         ArrayList<Usuario> usuarios = (ArrayList<Usuario>) entityManager.createQuery(" FROM Usuario u WHERE u.correoUsuario = :email")
-                .setParameter("email", correoContrasena.getCorreo())
+                .setParameter("email", correo)
                 .getResultList(); //Obtenemos el listado de usuarios para los registros en lo que coinciden el correo pasado por parámetro
         if (usuarios.size()!=0){ //si el listado de usuarios no esta vacío
             System.out.println("Usuario: " + usuarios.get(0));
@@ -81,27 +98,46 @@ public class UsuarioDaoImp implements UsuarioDAO { //implementamos la interfaz U
         return new Usuario(); //Si no devolvemos un Usuario vacío
     }
 
-    public ArrayList<Usuario> getUsuarios(Usuario usuario){ //Devuelve un listado de usuarios para la empresa del usuario pasado
+    public ArrayList<Usuario> getUsuarios(String empresa){ //Devuelve un listado de usuarios para la empresa del usuario pasado
         ArrayList<Usuario> usuarios = (ArrayList<Usuario>) entityManager.createQuery("FROM Usuario u WHERE u.empresaUsuario = :emp")
-                .setParameter("emp", usuario.getEmpresaUsuario())
+                .setParameter("emp", empresa)
                 .getResultList(); //Obtenemos el listado de usuarios para los registros en lo que coinciden la empresa pasada por parámetro
         System.out.println("Obteniendo lista : " + usuarios.size() + usuarios.get(0).getNombreUsuario());
         return usuarios; //devolvemos el listado de usuarios
     }
     public Usuario updateUsuario(Usuario usuario){ //Actualizamos los datos del usuario pasado y devolvemos el usuario actualizado
-        System.out.println("actualizando");
-        String hashContrasena = obtenerHash(usuario.getContrasena());
-        usuario.setContrasena(hashContrasena);
-        Usuario usuarioActualizado = entityManager.merge(usuario); //Merge combina los valores nuevos con los antiguos para actualizar el objeto usuario pasado
-        System.out.println(usuarioActualizado.toString());
-        entityManager.flush(); //sincronizamos la conexión con la base de datos
-        return usuarioActualizado; //Devolvemos el usuario actualizado
+        List<Usuario> usuarios = entityManager.createQuery(" FROM Usuario u WHERE u.correoUsuario = :correo")
+                .setParameter("correo", usuario.getCorreoUsuario())
+                .getResultList();  // La consulta nos devolverá un listado de usuarios que contengan el mismo correo del usuario de la petición
+        if(usuarios.isEmpty() || (usuarios.get(0).getIdUsuario()==usuario.getIdUsuario())){ //Si el correo pasado no existe en el listado de la consulta estará vacío o si el existente coincide con el id del usuario pasado, se podrá actualizar el correo
+            Usuario usuarioActualizado = entityManager.merge(usuario); //Merge combina los valores nuevos con los antiguos para actualizar el objeto usuario pasado
+            System.out.println(usuarioActualizado.toString());
+            entityManager.flush(); //sincronizamos la conexión con la base de datos
+            return usuarioActualizado; //Devolvemos el usuario actualizado
+        }
+        return null; //En caso contrario devolvemos null
     }
 
-    public int RemoveUsuario(Usuario usuario){ //Devuelve 1 si el borrado del usuario pasado fue exitoso o 0 si no se consigue borrar
-        System.out.println("Eliminando " + usuario.getNombreUsuario());
-        int resRemove = entityManager.createQuery("delete Usuario u where u.idUsuario = :id")
+    @Override
+    public Usuario updateContrasena(Usuario usuario) { //Actualizamos la contraseña del usuario pasado
+        String hashContrasena = obtenerHash(usuario.getContrasena()); //hasheamos la contraseña que se va a actualizar
+        int resUpdate = entityManager.createQuery("update Usuario u set u.contrasena = :pass where u.idUsuario = :id")
+                .setParameter("pass", hashContrasena)
                 .setParameter("id", usuario.getIdUsuario())
+                .executeUpdate();  //Hacemos un Update para actualizar el atributo contraseña donde coincide el id del usuario pasado
+        List<Usuario> usuarios = entityManager.createQuery(" FROM Usuario u WHERE u.idUsuario = :id") //Obtenemos el usuario actualizado
+                .setParameter("id", usuario.getIdUsuario())
+                .getResultList();
+        if (resUpdate == 1 && !usuarios.isEmpty()){ //Comprobamos si el update se hizo correctamente y si obtuvimos el usuario
+            return usuarios.get(0); //Devolvemos el usuario con la contraseña actualizada
+        }
+        return null; //En caso contrario devolvemos null
+    }
+
+
+    public int RemoveUsuario(int idUsuario){ //Devuelve 1 si el borrado del usuario pasado fue exitoso o 0 si no se consigue borrar
+        int resRemove = entityManager.createQuery("delete Usuario u where u.idUsuario = :id")
+                .setParameter("id", idUsuario)
                 .executeUpdate(); //Hacemos el delete donde el id del usuario coincide con el pasado por parámetro
         entityManager.flush(); //sincronizamos la conexión con la base de datos
         return resRemove; //devolvemos el resultado del delete

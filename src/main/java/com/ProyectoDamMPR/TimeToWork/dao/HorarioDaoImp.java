@@ -7,6 +7,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Repository //Declaramos que la clase será un componente encargado de resolver el acceso y la gestión de los datos en la BBDD para la entidad Horario, es la capa de persistencia
@@ -32,9 +33,9 @@ public class HorarioDaoImp implements  HorarioDao{
     }
 
     @Override
-    public ArrayList<Horario> getHorarios(Usuario usuario) { //Devuelve el listado de horarios para el usuario pasado
+    public ArrayList<Horario> getHorarios(String correo) { //Devuelve el listado de horarios para el usuario pasado
         ArrayList<Horario> horarios = (ArrayList<Horario>) entityManager.createQuery("FROM Horario h WHERE h.correoEmpleado = :email")
-                .setParameter("email", usuario.getCorreoUsuario())
+                .setParameter("email", correo)
                 .getResultList(); // La consulta nos devolverá un listado de horarios para los registros que contengan el correo del usuario pasado
         System.out.println("Obteniendo lista tamaño: " + horarios.size());
         entityManager.flush(); //sincronizamos la conexión con la base de datos
@@ -42,19 +43,19 @@ public class HorarioDaoImp implements  HorarioDao{
     }
 
     @Override
-    public int removeHorario(Horario horario) { //Elimina en la base de datos el horario pasado y devuelve 1 o no lo elimina y devuelve 0
+    public int removeHorario(String correo, LocalDate fecha) { //Elimina en la base de datos el horario para el usuario y correo pasado y devuelve 1 o no lo elimina y devuelve 0
         int res = entityManager.createQuery("DELETE Horario h WHERE h.fecha = :fecha AND h.correoEmpleado = :email")
-                .setParameter("email", horario.getCorreoEmpleado())
-                .setParameter("fecha", horario.getFecha())
+                .setParameter("email", correo)
+                .setParameter("fecha", fecha)
                 .executeUpdate(); //Ejecutamos el borrado del registro donde contenga la fecha y el correo del usuario del horario pasado
         entityManager.flush(); //sincronizamos la conexión con la base de datos
         return res; //devolvemos la respuesta en un entero de si se elimino o no el horario
     }
 
-    public ArrayList<Horario> obtenerFichar(Horario horario){ //Devuelve el listado de horarios para la fecha y el correo del usuario del horario pasado
+    public ArrayList<Horario> obtenerFichar(String correo, LocalDate fecha){ //Devuelve el listado de horarios para la fecha y el correo del usuario del horario pasado
         ArrayList<Horario> horarios = (ArrayList<Horario>) entityManager.createQuery("FROM Horario h WHERE h.fecha = :fecha AND h.correoEmpleado = :email")
-                .setParameter("email", horario.getCorreoEmpleado())
-                .setParameter("fecha", horario.getFecha())
+                .setParameter("email", correo)
+                .setParameter("fecha", fecha)
                 .getResultList(); // La consulta nos devolverá un listado de horarios para los registros que contengan la fecha y el correo del usuario del horario pasado
         if(horarios.size()!=0) { //si el listado no está vacío
             System.out.println("Horario conseguido: " + horarios.get(0).toString());
