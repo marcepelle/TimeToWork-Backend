@@ -1,1 +1,1 @@
-web: java -jar target/TimeToWork.jar
+web: java -jar target/TimeToWork-0.0.1-SNAPSHOT.war
