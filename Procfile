@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT $JAVA_TOOL_OPTIONS target/TimeToWork-0.0.1-SNAPSHOT.jar --spring.profiles.active=heroku
+web: java $JAVA_TOOL_OPTIONS target/TimeToWork-0.0.1-SNAPSHOT.jar --spring.profiles.active=heroku
