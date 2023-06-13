@@ -41,6 +41,11 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.heroku</groupId>
+			<artifactId>webapp-runner</artifactId>
+			<version>9.0.75.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
