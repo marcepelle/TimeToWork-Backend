@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/TimeToWork-0.0.1-SNAPSHOT.jar -cp target/classes:target/dependency/* com.ProyectoDamMPR.TimeToWork.TimeToWorkApplication
+web: java -jar target/TimeToWork-0.0.1-SNAPSHOT.jar
