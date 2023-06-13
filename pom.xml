@@ -59,7 +59,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>3.0.5</version>
 				<configuration>
-					<mainClass>controller.Application</mainClass>
+					<mainClass>TimeToWorkApplication</mainClass>
 					<layout>ZIP</layout>
 				</configuration>
 				<executions>
