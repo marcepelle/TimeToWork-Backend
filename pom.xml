@@ -41,11 +41,6 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!--<dependency>
-			<groupId>com.heroku</groupId>
-			<artifactId>webapp-runner</artifactId>
-			<version>9.0.75.0</version>
-		</dependency>-->
 	</dependencies>
 	<build>
 		<plugins>
@@ -58,38 +53,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>3.0.5</version>
-				<!--<configuration>
-					<mainClass>com.ProyectoDamMPR.TimeToWork.TimeToWorkApplication</mainClass>
-					<layout>ZIP</layout>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>-->
 			</plugin>
-			<!--<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals><goal>copy</goal></goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.heroku</groupId>
-									<artifactId>webapp-runner</artifactId>
-									<version>9.0.75.0</version>
-									<destFileName>webapp-runner.jar</destFileName>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>-->
 		</plugins>
 	</build>
 </project>

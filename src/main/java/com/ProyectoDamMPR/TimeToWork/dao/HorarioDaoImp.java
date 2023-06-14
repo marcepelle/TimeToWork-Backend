@@ -1,7 +1,6 @@
 package com.ProyectoDamMPR.TimeToWork.dao;
 ;
 import com.ProyectoDamMPR.TimeToWork.modelo.Horario;
-import com.ProyectoDamMPR.TimeToWork.modelo.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -33,7 +32,7 @@ public class HorarioDaoImp implements  HorarioDao{
     }
 
     @Override
-    public ArrayList<Horario> getHorarios(String correo) { //Devuelve el listado de horarios para el usuario pasado
+    public ArrayList<Horario> getHorarios(String correo) { //Devuelve el listado de horarios para el correo pasado
         ArrayList<Horario> horarios = (ArrayList<Horario>) entityManager.createQuery("FROM Horario h WHERE h.correoEmpleado = :email")
                 .setParameter("email", correo)
                 .getResultList(); // La consulta nos devolverá un listado de horarios para los registros que contengan el correo del usuario pasado
@@ -43,7 +42,7 @@ public class HorarioDaoImp implements  HorarioDao{
     }
 
     @Override
-    public int removeHorario(String correo, LocalDate fecha) { //Elimina en la base de datos el horario para el usuario y correo pasado y devuelve 1 o no lo elimina y devuelve 0
+    public int removeHorario(String correo, LocalDate fecha) { //Elimina en la base de datos el horario para el correo y fecha pasado, devuelve 1 o no lo elimina y devuelve 0
         int res = entityManager.createQuery("DELETE Horario h WHERE h.fecha = :fecha AND h.correoEmpleado = :email")
                 .setParameter("email", correo)
                 .setParameter("fecha", fecha)

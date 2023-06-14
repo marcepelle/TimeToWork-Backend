@@ -9,6 +9,6 @@ public class IndexContoller {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(){
-        return "Hello World";
+        return "Bienvenido a TimeToWork";
     }
 }

@@ -26,34 +26,39 @@ public class UsuarioController {
     public int crearEmpresa(@RequestBody Empresa empresa){ //Con RequestBody deserializamos un objeto Empresa a partir del cuerpo de la petición
         return empresaDAO.crearEmpresaUsuario(empresa);
     }
-    @GetMapping ("/loginUsuario") //A través de un método Post en la ruta declarada se devolverá el Usuario para la sesión si para el objeto correoContrasena que se envío en la petición los datos existen en la base de datos y son correctos
-    public Usuario iniciarSesion(@RequestParam("correo") String correo, @RequestParam("contrasena") String contrasena) { //Con RequestBody deserializamos un objeto CorreoContrasena a partir del cuerpo de la petición
+    @GetMapping ("/loginUsuario") //A través de un método Get en la ruta declarada se devolverá el Usuario para la sesión si para el correo y contraseña pasada que se envío en la petición los datos existen en la base de datos y son correctos
+    public Usuario iniciarSesion(@RequestParam("correo") String correo, @RequestParam("contrasena") String contrasena) { //Con RequestParam obtenemos el/los parámetro/s pasado/s en la petición
         CorreoContrasena correoContrasena = new CorreoContrasena(correo, contrasena);
-        System.out.println("Coreo y contrasena: " + correoContrasena.toString());
+        System.out.println("Iniciando sesión para: " + correoContrasena.toString());
         Usuario usuarioLogged = usuarioDAO.loginUsuario(correoContrasena);
+        if(usuarioLogged.equals(null)){
+            System.out.println("No existe usuario" +
+                    "" +
+                    " para: " + correoContrasena.toString());
+        }
         return usuarioLogged;
     }
-    @GetMapping("/obtenerUsuario") //A través de un método Post en la ruta declarada se devolverá un Usuario si para el objeto correoContrasena que se envío en la petición los datos existen en la base de datos y son correctos
-    public Usuario obtenerUsuario(@RequestParam("correo") String correo){ //Con RequestBody deserializamos un objeto CorreoContrasena a partir del cuerpo de la petición
+    @GetMapping("/obtenerUsuario") //A través de un método Get en la ruta declarada se devolverá un Usuario si para el correo que se envío en la petición los datos existen en la base de datos y son correctos
+    public Usuario obtenerUsuario(@RequestParam("correo") String correo){ //Con RequestParam obtenemos el/los parámetro/s pasado/s en la petición
         return usuarioDAO.getUsuario(correo);
     }
-    @GetMapping ("/listarUsuarios") //A través de un método Post en la ruta declarada se devuelve un listado de usuarios para el usuario pasado en la petición
-    public ArrayList<Usuario> listarUsuarios(@RequestParam String empresa){ //Con RequestBody deserializamos un objeto Usuario a partir del cuerpo de la petición
+    @GetMapping ("/listarUsuarios") //A través de un método Get en la ruta declarada se devuelve un listado de usuarios para la empresa del usuario que se había pasado en la petición
+    public ArrayList<Usuario> listarUsuarios(@RequestParam String empresa){ //Con RequestParam obtenemos el/los parámetro/s pasado/s en la petición
         return usuarioDAO.getUsuarios(empresa);
     }
-    @PutMapping("/actualizarUsuario") //A través de un método Post en la ruta declarada se actualiza el usuario pasado en la petición y se devuelve el usuario actualizado
+    @PutMapping("/actualizarUsuario") //A través de un método Put en la ruta declarada se actualiza el usuario pasado en la petición y se devuelve el usuario actualizado
     public Usuario actualizarUsuario(@RequestBody Usuario usuario){ //Con RequestBody deserializamos un objeto Usuario a partir del cuerpo de la petición
         Usuario usuarioActualizado = usuarioDAO.updateUsuario(usuario);
         return usuarioActualizado;
     }
-    @PutMapping("/actualizarContrasena") //A través de un método Post en la ruta declarada se actualiza la contraseña del usuario pasado en la petición y se devuelve el usuario actualizado
+    @PutMapping("/actualizarContrasena") //A través de un método Put en la ruta declarada se actualiza la contraseña del usuario pasado en la petición y se devuelve el usuario actualizado
     public Usuario actualizarContrasena(@RequestBody Usuario usuario){ //Con RequestBody deserializamos un objeto Usuario a partir del cuerpo de la petición
         Usuario usuarioActualizado = usuarioDAO.updateContrasena(usuario);
         return usuarioActualizado;
     }
 
-    @DeleteMapping ("/borrarUsuario/{id}")  //A través de un método Post en la ruta declarada eliminamos el usuario pasado en la petición
-    public int borrarUusario(@PathVariable("id") int id){ //Con RequestBody deserializamos un objeto Usuario a partir del cuerpo de la petición
+    @DeleteMapping ("/borrarUsuario/{id}")  //A través de un método Delete en la ruta declarada eliminamos el usuario que corresponde al del id pasado en la petición
+    public int borrarUusario(@PathVariable("id") int id){ //Con PathVariable obtenemos al dato enviado en la ruta de la petición
         int res = usuarioDAO.RemoveUsuario(id);
         System.out.println(" eliminado: " + res);
         return res;
